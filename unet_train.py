@@ -34,5 +34,5 @@ if __name__ == "__main__":
     print("Done!")
 
     res = model(image)
-    print(res.shape)
+    # print(res.shape)
     image_util.export_image(res, './data/test_save.jpg')
