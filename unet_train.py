@@ -13,7 +13,7 @@ def train(image, model):
     # Compute prediction error
     pred = model(image)
     loss = loss_fn(pred, image)
-    print('loss =', loss)
+    # print('loss =', loss)
     # Backpropagation
     optimizer.zero_grad()
     loss.backward()
@@ -24,7 +24,7 @@ def train(image, model):
 
 if __name__ == "__main__":
     device = "cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu"
-    image = image_util.load_image('./data/test_pic.jpg')
+    image = image_util.load_image('./data/test_pic_2.jpg')
     model = unet_model.UNet()
 
     epochs = 10000
@@ -35,4 +35,4 @@ if __name__ == "__main__":
 
     res = model(image)
     # print(res.shape)
-    image_util.export_image(res, './data/test_save.jpg')
+    image_util.export_image(res, './data/test_save_2.jpg')
