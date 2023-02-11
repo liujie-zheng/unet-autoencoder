@@ -4,15 +4,26 @@ from torch.utils.data import DataLoader
 from torchvision.transforms import transforms
 import matplotlib.pyplot as plt
 
+# return train_dataloader and test_dataloader
 def get_dataloader(batch_size):
-    training_data = datasets.Caltech101(
+    dataset = datasets.Caltech101(
         root="data",
         target_type='category',
         download=True,
-        transform=transforms.Compose([transforms.Resize(256), transforms.RandomCrop(256), transforms.ToTensor()])
+        transform=transforms.Compose([
+            transforms.Resize(128),
+            transforms.RandomCrop(128),
+            transforms.ToTensor(),
+            # raise grayscale images to 3 channels
+            transforms.Lambda(lambda x: x.repeat(3, 1, 1) if x.shape[0] == 1 else x)])
     )
-
-    train_dataloader = DataLoader(training_data, batch_size=batch_size)
+    # split into train and test data
+    train_list = list(range(0, 6400))
+    test_list = list(range(6400, 8677))
+    train_data = torch.utils.data.Subset(dataset, train_list)
+    test_data = torch.utils.data.Subset(dataset, test_list)
+    return DataLoader(train_data, batch_size=batch_size), \
+        DataLoader(test_data, batch_size=batch_size)
 
 def print_sample_img(dataset):
     figure = plt.figure(figsize=(8, 8))
@@ -26,12 +37,13 @@ def print_sample_img(dataset):
         plt.imshow(img.permute(1, 2, 0), cmap="gray")
     plt.show()
 
-def show_data(dataset, idx):
+def show_img(dataset, idx):
     img, label = dataset[idx]
     plt.imshow(img.permute(1, 2, 0), cmap="gray")
     plt.show()
     plt.axis("off")
     print(f"Label: {label}")
 
-print(show_data(train_dataloader.dataset, 2323))
-print_sample_img(train_dataloader.dataset)
+if __name__ == "__main__":
+    get_dataloader(16)
+    print('Done')

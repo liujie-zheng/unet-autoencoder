@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 
-import image_util
+from utils import image_util
 import unet_model
 
 

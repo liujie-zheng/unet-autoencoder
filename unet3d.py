@@ -4,10 +4,10 @@ import torch.nn as nn
 
 def double_conv_3d(in_c, out_c):
     conv = nn.Sequential(
-        nn.Conv3d(in_c, out_c, kernel_size=(3, 3, 1), stride=(1, 1, 1)),
+        nn.Conv3d(in_c, out_c, kernel_size=(3, 3, f), stride=(1, 1, f)),
         nn.ReLU(inplace=True),
-        nn.Conv3d(out_c, out_c, kernel_size=(3, 3, 1), stride=(1, 1, 1)),
-        nn.ReLU(inplace=True)
+        # nn.Conv3d(out_c, out_c, kernel_size=(3, 3, 1), stride=(1, 1, 1)),
+        # nn.ReLU(inplace=True)
     )
     return conv
 
@@ -31,20 +31,20 @@ class UNet(nn.Module):
         self.down_conv_4 = double_conv_3d(64 * f, 128 * f)
         self.down_conv_5 = double_conv_3d(128 * f, 256 * f)
 
-        self.up_trans_1 = nn.ConvTranspose3d(in_channels=256 * f, out_channels=128 * f, kernel_size=(2, 2, 1),
-                                             stride=(2, 2, 1))
+        self.up_trans_1 = nn.ConvTranspose3d(in_channels=256 * f, out_channels=128 * f, kernel_size=(2, 2, f),
+                                             stride=(2, 2, f))
         self.up_conv_1 = double_conv_3d(256 * f, 128 * f)
-        self.up_trans_2 = nn.ConvTranspose3d(in_channels=128 * f, out_channels=64 * f, kernel_size=(2, 2, 1),
-                                             stride=(2, 2, 1))
+        self.up_trans_2 = nn.ConvTranspose3d(in_channels=128 * f, out_channels=64 * f, kernel_size=(2, 2, f),
+                                             stride=(2, 2, f))
         self.up_conv_2 = double_conv_3d(128 * f, 64 * f)
-        self.up_trans_3 = nn.ConvTranspose3d(in_channels=64 * f, out_channels=32 * f, kernel_size=(2, 2, 1),
-                                             stride=(2, 2, 1))
+        self.up_trans_3 = nn.ConvTranspose3d(in_channels=64 * f, out_channels=32 * f, kernel_size=(2, 2, f),
+                                             stride=(2, 2, f))
         self.up_conv_3 = double_conv_3d(64 * f, 32 * f)
-        self.up_trans_4 = nn.ConvTranspose3d(in_channels=32 * f, out_channels=16 * f, kernel_size=(2, 2, 1),
-                                             stride=(2, 2, 1))
+        self.up_trans_4 = nn.ConvTranspose3d(in_channels=32 * f, out_channels=16 * f, kernel_size=(2, 2, f),
+                                             stride=(2, 2, f))
         self.up_conv_4 = double_conv_3d(32 * f, 16 * f)
 
-        self.out = nn.Conv3d(in_channels=16 * f, out_channels=1 * f, kernel_size=(1, 1, 1))
+        self.out = nn.Conv3d(in_channels=16 * f, out_channels=1 * f, kernel_size=(1, 1, f))
 
     def forward(self, image_seq):
         # encoder
@@ -80,7 +80,7 @@ class UNet(nn.Module):
 
 
 if __name__ == "__main__":
-    f = 100
+    f = 10
     image_seq = torch.rand((1, f, 256, 256))
     model = UNet()
     print(model(image_seq))
