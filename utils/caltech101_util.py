@@ -11,13 +11,13 @@ def get_dataloader(batch_size):
         target_type='category',
         download=True,
         transform=transforms.Compose([
-            transforms.Resize(128),
-            transforms.RandomCrop(128),
+            transforms.Resize(256),
+            transforms.RandomCrop(256),
             transforms.ToTensor(),
             # raise grayscale images to 3 channels
             transforms.Lambda(lambda x: x.repeat(3, 1, 1) if x.shape[0] == 1 else x)])
     )
-    # split into train and test data
+    # split into train and test datas
     train_list = list(range(0, 6400))
     test_list = list(range(6400, 8677))
     train_data = torch.utils.data.Subset(dataset, train_list)
