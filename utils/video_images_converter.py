@@ -16,7 +16,7 @@ def video2images(source_path, dest_dir_path, max_frame):
         ret, frame = cam.read()
         if ret and currentframe < max_frame:
             # if video is still left continue creating images
-            name = dest_dir_path + '/frame' + str(currentframe) + '.jpg'
+            name = dest_dir_path + '/frame_{:05d}'.format(currentframe) + '.jpg'
             print ('Creating...' + name)
 
             cv2.imwrite(name, frame)
@@ -27,4 +27,4 @@ def video2images(source_path, dest_dir_path, max_frame):
     cam.release()
     cv2.destroyAllWindows()
 
-video2images('data/archaeological_museum.mp4', 'data/frames_museum', 20000)
+video2images('../data/rouen.mp4', '../data/frames_rouen', 20000)
