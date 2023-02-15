@@ -45,6 +45,7 @@ def train(dataloader, model, loss_fn, optimizer):
             loss, current = loss.item(), batch * len(X)
             print(f"loss: {loss:>7f}  [{current:>5d}/{size:>5d}]")
 
+# avoiding the use of test as function name
 def eval(dataloader, model, loss_fn):
     size = len(dataloader.dataset)
     num_batches = len(dataloader)
