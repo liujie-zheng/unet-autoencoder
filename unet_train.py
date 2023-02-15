@@ -25,7 +25,7 @@ def train(dataloader, model, loss_fn, optimizer):
         optimizer.step()
 
         # Show progress
-        if batch % 50 == 0:
+        if batch % 100 == 0:
             figure = plt.figure(figsize=(4, 2))
             rand_idx = random.randint(0, len(X) - 1)
             # input img
