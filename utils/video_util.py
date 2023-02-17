@@ -5,12 +5,8 @@ from matplotlib import pyplot as plt
 from torch.utils.data import Dataset
 from torch.utils.data import DataLoader
 from torchvision.io import read_image
-from torchvision.transforms import transforms
+from torchvision import transforms
 
-
-# path = "../data/rouen.mp4"
-# vframe, _, _ = torchvision.io.read_video(path)
-# print(vframe.shape)
 
 class RouenVideo(Dataset):
     def __init__(self, root, transform=None):
@@ -18,7 +14,7 @@ class RouenVideo(Dataset):
         self.transform = transform
 
     def __len__(self):
-        return 2000
+        return 8518
 
     def __getitem__(self, idx):
         image_path = os.path.join(self.root, "frame_{:05d}.jpg".format(idx))
@@ -33,7 +29,7 @@ class BearVideo(Dataset):
         self.transform = transform
 
     def __len__(self):
-        return 1000
+        return 4753
 
     def __getitem__(self, idx):
         image_path = os.path.join(self.root, "frame_{:05d}.jpg".format(idx))
@@ -47,25 +43,33 @@ def show_sample_frame(dataloader):
     print(f"Feature batch shape: {train_features.size()}")
     img = train_features[0].squeeze()
     label = train_labels[0]
-    plt.imshow(img.permute(1, 2, 0), cmap="gray")
+    plt.imshow(img.detach().cpu().permute(1, 2, 0), cmap="gray")
     plt.axis(False)
     plt.show()
 
 def get_dataloader(batch_size):
     train_dataset = RouenVideo(
-        root = "data/frames_rouen",
-        transform = transforms.Compose([
-            # transforms.Resize(360),
-            transforms.ConvertImageDtype(torch.float32)])
+        root= "data/frames_rouen",
+        transform=transforms.Compose([
+            transforms.ConvertImageDtype(torch.float32)
+        ])
     )
-    train_dataloader = DataLoader(train_dataset, batch_size=batch_size, shuffle=False)
-
     test_dataset = BearVideo(
-        root = "data/frames_bear",
-        transform = transforms.Compose([
-            # transforms.Resize(360),
-            transforms.ConvertImageDtype(torch.float32)])
+        root= "data/frames_bear",
+        transform=transforms.Compose([
+            transforms.ConvertImageDtype(torch.float32)
+        ])
     )
-    test_dataloader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False)
-
+    train_dataloader = DataLoader(train_dataset, batch_size=batch_size)
+    test_dataloader = DataLoader(test_dataset, batch_size=batch_size)
     return train_dataloader, test_dataloader
+
+if __name__ == "__main__":
+    train_dataset = RouenVideo(
+        root= "../data/frames_rouen",
+        transform=transforms.Compose([
+            transforms.ConvertImageDtype(torch.float32),
+        ])
+    )
+    train_dataloader = DataLoader(train_dataset, 64)
+    show_sample_frame(train_dataloader)
