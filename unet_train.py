@@ -77,27 +77,6 @@ def eval(dataloader, model, loss_fn):
     # show imgs and loss
     plt.show()
 
-if __name__ == "__main__":
-    device = "cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu"
-    train_dataloader, test_dataloader = caltech101_util.get_dataloader(64)
-    model = unet_model.UNet().to(device)
-    loss_fn = nn.MSELoss()
-    optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
-    epochs = 20
-    for t in range(epochs):
-        print(f"Epoch {t + 1}\n-------------------------------")
-        train(train_dataloader, model, loss_fn, optimizer)
-        eval(test_dataloader, model, loss_fn)
-    print("Done!")
-
-    # save weights
-    # save_path = "weights/256_epoch20_adam"
-    # torch.save(model.state_dict(), save_path)
-    # print("Weights saved at", save_path)
-
-
-
-#  train and save caltech101
 # if __name__ == "__main__":
 #     device = "cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu"
 #     train_dataloader, test_dataloader = caltech101_util.get_dataloader(64)
@@ -112,9 +91,30 @@ if __name__ == "__main__":
 #     print("Done!")
 #
 #     # save weights
-#     save_path = "weights/256_epoch20_adam"
-#     torch.save(model.state_dict(), save_path)
-#     print("Weights saved at", save_path)
+#     # save_path = "weights/256_epoch20_adam"
+#     # torch.save(model.state_dict(), save_path)
+#     # print("Weights saved at", save_path)
+
+
+
+#  train and save caltech101
+if __name__ == "__main__":
+    device = "cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu"
+    train_dataloader, test_dataloader = caltech101_util.get_dataloader(64)
+    model = unet_model.UNet().to(device)
+    loss_fn = nn.MSELoss()
+    optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
+    epochs = 20
+    for t in range(epochs):
+        print(f"Epoch {t + 1}\n-------------------------------")
+        train(train_dataloader, model, loss_fn, optimizer)
+        eval(test_dataloader, model, loss_fn)
+    print("Done!")
+
+    # save weights
+    save_path = "weights/256_epoch20_adam"
+    torch.save(model.state_dict(), save_path)
+    print("Weights saved at", save_path)
 
 
 

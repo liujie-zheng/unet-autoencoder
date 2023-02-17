@@ -1,81 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" autoUpload="Always" remoteFilesAllowedToDisappearOnAutoupload="false">
+  <component name="PublishConfigData" autoUpload="Always" serverName="liujiez@hires-lambda1.cs.unc.edu:22 password (4)" remoteFilesAllowedToDisappearOnAutoupload="false">
     <serverData>
-      <paths name="liujiez@hires-lambda1.cs.unc.edu:22 password">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
-      <paths name="liujiez@hires-lambda1.cs.unc.edu:22 password (10)">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
-      <paths name="liujiez@hires-lambda1.cs.unc.edu:22 password (11)">
-        <serverdata>
-          <mappings>
-            <mapping deploy="/playpen/liujiez" local="$PROJECT_DIR$" />
-          </mappings>
-        </serverdata>
-      </paths>
-      <paths name="liujiez@hires-lambda1.cs.unc.edu:22 password (2)">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
-      <paths name="liujiez@hires-lambda1.cs.unc.edu:22 password (3)">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
       <paths name="liujiez@hires-lambda1.cs.unc.edu:22 password (4)">
         <serverdata>
           <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
-      <paths name="liujiez@hires-lambda1.cs.unc.edu:22 password (5)">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
-      <paths name="liujiez@hires-lambda1.cs.unc.edu:22 password (6)">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
-      <paths name="liujiez@hires-lambda1.cs.unc.edu:22 password (7)">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
-      <paths name="liujiez@hires-lambda1.cs.unc.edu:22 password (8)">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
-      <paths name="liujiez@hires-lambda1.cs.unc.edu:22 password (9)">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/playpen/liujiez/unet-autoencoder" local="$PROJECT_DIR$" />
           </mappings>
         </serverdata>
       </paths>
