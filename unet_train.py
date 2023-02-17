@@ -70,7 +70,7 @@ def eval(dataloader, model, loss_fn):
     plt.title("test_input")
     # output img
     figure.add_subplot(1, 2, 2)
-    output_img = model(X)[rand_idx]
+    output_img = pred[rand_idx]
     plt.imshow(np.clip(output_img.cpu().detach().numpy().transpose(1, 2, 0), 0, 1).astype(np.float32), cmap="gray")
     plt.axis("off")
     plt.title("test_output")
