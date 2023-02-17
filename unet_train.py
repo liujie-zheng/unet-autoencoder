@@ -70,7 +70,7 @@ def eval(dataloader, model, loss_fn):
     plt.title("test_input")
     # output img
     figure.add_subplot(1, 2, 2)
-    output_img = model(X)[rand_idx]
+    output_img = pred[rand_idx]
     plt.imshow(np.clip(output_img.cpu().detach().numpy().transpose(1, 2, 0), 0, 1).astype(np.float32), cmap="gray")
     plt.axis("off")
     plt.title("test_output")
@@ -113,30 +113,9 @@ if __name__ == "__main__":
 #     print("Done!")
 #
 #     # save weights
-#     # save_path = "weights/256_epoch20_adam"
-#     # torch.save(model.state_dict(), save_path)
-#     # print("Weights saved at", save_path)
-
-
-
-#  train and save caltech101
-if __name__ == "__main__":
-    device = "cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu"
-    train_dataloader, test_dataloader = caltech101_util.get_dataloader(64)
-    model = unet_model.UNet().to(device)
-    loss_fn = nn.MSELoss()
-    optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
-    epochs = 20
-    for t in range(epochs):
-        print(f"Epoch {t + 1}\n-------------------------------")
-        train(train_dataloader, model, loss_fn, optimizer)
-        eval(test_dataloader, model, loss_fn)
-    print("Done!")
-
-    # save weights
-    save_path = "weights/256_epoch20_adam"
-    torch.save(model.state_dict(), save_path)
-    print("Weights saved at", save_path)
+#     save_path = "weights/256_epoch20_adam"
+#     torch.save(model.state_dict(), save_path)
+#     print("Weights saved at", save_path)
 
 
 
