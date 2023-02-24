@@ -54,13 +54,15 @@ def get_dataloader(batch_size):
     train_dataset = RouenVideo(
         root= "data/frames_rouen",
         transform=transforms.Compose([
-            transforms.ConvertImageDtype(torch.float32)
+            transforms.ConvertImageDtype(torch.float32),
+            transforms.Resize(180)
         ])
     )
     test_dataset = BearVideo(
         root= "data/frames_bear",
         transform=transforms.Compose([
-            transforms.ConvertImageDtype(torch.float32)
+            transforms.ConvertImageDtype(torch.float32),
+            transforms.Resize(180)
         ])
     )
     train_dataloader = DataLoader(train_dataset, batch_size=batch_size)
@@ -103,7 +105,8 @@ if __name__ == "__main__":
         root= "../data/frames_bear",
         transform=transforms.Compose([
             transforms.ConvertImageDtype(torch.float32),
+            transforms.Resize(90)
         ])
     )
     test_dataloader = DataLoader(test_dataset, batch_size=8)
-    show_test_frames(test_dataloader)
+    show_sample_frame(test_dataloader)

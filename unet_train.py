@@ -5,7 +5,10 @@ import numpy as np
 import unet_model
 import torch
 import torch.nn as nn
+from torchmetrics import PeakSignalNoiseRatio
 import matplotlib.pyplot as plt
+
+import unet_model_smaller
 from utils import caltech101_util
 from utils import video_util
 
@@ -24,8 +27,9 @@ def train(dataloader, model, loss_fn, optimizer):
         loss.backward()
         optimizer.step()
 
+
         # Show progress
-        if batch % 100 == 0:
+        if batch % 20 == 0:
             figure = plt.figure(figsize=(4, 2))
             rand_idx = random.randint(0, len(X) - 1)
             # input img
@@ -40,10 +44,14 @@ def train(dataloader, model, loss_fn, optimizer):
             plt.imshow(np.clip(output_img.cpu().detach().numpy().transpose(1, 2, 0), 0, 1), cmap="gray")
             plt.axis("off")
             plt.title("train_output")
+            # calculate PSNR
+            psnr = PeakSignalNoiseRatio()
+            p = psnr(output_img.cpu(), input_img.cpu())
+
             # show imgs and loss
             plt.show()
             loss, current = loss.item(), batch * len(X)
-            print(f"loss: {loss:>7f}  [{current:>5d}/{size:>5d}]")
+            print(f"loss: {loss:>7f}  psnr: {p:>7f} [{current:>5d}/{size:>5d}]")
 
 # avoiding the use of test as function name
 def eval(dataloader, model, loss_fn):
@@ -57,7 +65,6 @@ def eval(dataloader, model, loss_fn):
             pred = model(X)
             test_loss += loss_fn(pred, X).item()
     test_loss /= num_batches
-    print(f"test size: {size}, test avg loss: {test_loss:>8f} \n")
 
     # Show test results
     figure = plt.figure(figsize=(4, 2))
@@ -74,14 +81,20 @@ def eval(dataloader, model, loss_fn):
     plt.imshow(np.clip(output_img.cpu().detach().numpy().transpose(1, 2, 0), 0, 1).astype(np.float32), cmap="gray")
     plt.axis("off")
     plt.title("test_output")
+
+    # calculate PSNR
+    psnr = PeakSignalNoiseRatio()
+    p = psnr(output_img.cpu(), input_img.cpu())
+
     # show imgs and loss
     plt.show()
+    print(f"test size: {size}, test avg loss: {test_loss:>8f}, psnr: {p:>7f} \n")
 
 # train and test a video
 if __name__ == "__main__":
     device = "cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu"
-    train_dataloader, test_dataloader = video_util.get_dataloader(8)
-    model = unet_model.UNet().to(device)
+    train_dataloader, test_dataloader = video_util.get_dataloader(64)
+    model = unet_model_smaller.UNet().to(device)
     loss_fn = nn.MSELoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
     epochs = 3
@@ -92,7 +105,7 @@ if __name__ == "__main__":
     print("Done!")
 
     # save weights
-    save_path = "weights/video_epoch3_adam"
+    save_path = "weights/180_epoch3_adam"
     torch.save(model.state_dict(), save_path)
     print("Weights saved at", save_path)
 
