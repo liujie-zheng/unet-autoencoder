@@ -27,4 +27,4 @@ def video2images(source_path, dest_dir_path, max_frame):
     cam.release()
     cv2.destroyAllWindows()
 
-video2images('../data/rouen.mp4', '../data/frames_rouen', 20000)
+video2images('../data/sports.mp4', '../data/frames_sports', 20000)

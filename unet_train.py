@@ -93,21 +93,26 @@ def eval(dataloader, model, loss_fn):
 # train and test a video
 if __name__ == "__main__":
     device = "cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu"
-    train_dataloader, test_dataloader = video_util.get_dataloader(64)
-    model = unet_model_smaller.UNet().to(device)
-    loss_fn = nn.MSELoss()
-    optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
-    epochs = 3
-    for t in range(epochs):
-        print(f"Epoch {t + 1}\n-------------------------------")
-        train(train_dataloader, model, loss_fn, optimizer)
-        eval(test_dataloader, model, loss_fn)
+    permutations = [(x, y) for (i, x) in enumerate(range(4)) for (j, y) in enumerate(range(4)) if i != j]
+    for p in permutations:
+        train_dataloader, test_dataloader = video_util.get_dataloader(32, p[0], p[1])
+        model = unet_model_smaller.UNet().to(device)
+        loss_fn = nn.MSELoss()
+        optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
+        epochs = 1
+        print(f"training on {video_util.dataset_info[p[0]]}, testing on {video_util.dataset_info[p[1]]}")
+        for t in range(epochs):
+            print(f"Epoch {t + 1}\n-------------------------------")
+            train(train_dataloader, model, loss_fn, optimizer)
+            eval(test_dataloader, model, loss_fn)
+
+
     print("Done!")
 
     # save weights
-    save_path = "weights/180_epoch3_adam"
-    torch.save(model.state_dict(), save_path)
-    print("Weights saved at", save_path)
+    # save_path = "weights/180_epoch15_adam"
+    # torch.save(model.state_dict(), save_path)
+    # print("Weights saved at", save_path)
 
 
 

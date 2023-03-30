@@ -10,14 +10,13 @@ from torchvision import transforms
 
 import unet_model
 
-
-class RouenVideo(Dataset):
+class TrainDataset(Dataset):
     def __init__(self, root, transform=None):
         self.root = root
         self.transform = transform
 
     def __len__(self):
-        return 4000
+        return 3000
 
     def __getitem__(self, idx):
         image_path = os.path.join(self.root, "frame_{:05d}.jpg".format(idx))
@@ -26,7 +25,7 @@ class RouenVideo(Dataset):
             image = self.transform(image)
         return image, 0
 
-class BearVideo(Dataset):
+class TestDataset(Dataset):
     def __init__(self, root, transform=None):
         self.root = root
         self.transform = transform
@@ -50,16 +49,25 @@ def show_sample_frame(dataloader):
     plt.axis(False)
     plt.show()
 
-def get_dataloader(batch_size):
-    train_dataset = RouenVideo(
-        root= "data/frames_rouen",
+dataset_info = ["data/frames_bear",
+                "data/frames_rouen",
+                "data/frames_car",
+                "data/frames_faces",
+                "frames_vfx",
+                "frames_cartoon",
+                "frames_game",
+                "frames_sports"
+                ]
+def get_dataloader(batch_size, train_idx, test_idx):
+    train_dataset = TrainDataset(
+        root= dataset_info[train_idx],
         transform=transforms.Compose([
             transforms.ConvertImageDtype(torch.float32),
             transforms.Resize(180)
         ])
     )
-    test_dataset = BearVideo(
-        root= "data/frames_bear",
+    test_dataset = TestDataset(
+        root= dataset_info[test_idx],
         transform=transforms.Compose([
             transforms.ConvertImageDtype(torch.float32),
             transforms.Resize(180)
@@ -101,7 +109,7 @@ if __name__ == "__main__":
     # train_dataloader = DataLoader(train_dataset, 64)
     # show_sample_frame(train_dataloader)
 
-    test_dataset = BearVideo(
+    test_dataset = TestDataset(
         root= "../data/frames_bear",
         transform=transforms.Compose([
             transforms.ConvertImageDtype(torch.float32),
